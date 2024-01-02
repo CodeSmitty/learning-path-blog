@@ -5,12 +5,12 @@ class BlogPostsController < ApplicationController
     
     
     def index
-         @blog_posts = BlogPost.all 
+         @blog_posts = BlogPost.published 
 
     end
 
     def show
-        
+         @blog_post = BlogPost.published.find(params[:id])
     
     end
 
@@ -67,7 +67,8 @@ class BlogPostsController < ApplicationController
     end 
 
     def set_blog_post 
-        @blog_post = BlogPost.find(params[:id])
+        user_signed_in? ? @blog_post = BlogPost.find(params[:id]) : @blog_post = BlogPost.published.find(params[:id]) 
+
         rescue ActiveRecord::RecordNotFound
         redirect_to root_path
     end
