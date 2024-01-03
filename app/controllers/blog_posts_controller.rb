@@ -5,12 +5,12 @@ class BlogPostsController < ApplicationController
     
     
     def index
-         @blog_posts = BlogPost.all 
+         @blog_posts = user_signed_in? ? BlogPost.sorted : BlogPost.published.sorted 
 
     end
 
     def show
-        
+         
     
     end
 
@@ -21,10 +21,14 @@ class BlogPostsController < ApplicationController
 
     def create
         @blog_post = BlogPost.new(blog_post_params)
+       
         if @blog_post.save
+            
           flash[:success] = "Object successfully created"
+          
           redirect_to @blog_post
         else
+          
           flash[:error] = "Something went wrong"
           render 'new', status: :unprocessable_entity
         end
@@ -63,11 +67,12 @@ class BlogPostsController < ApplicationController
 
 
     def blog_post_params
-        params.require(:blog_post).permit(:title, :body)
+        params.require(:blog_post).permit(:title, :body, :published_at)
     end 
 
     def set_blog_post 
-        @blog_post = BlogPost.find(params[:id])
+        user_signed_in? ? @blog_post = BlogPost.find(params[:id]) : @blog_post = BlogPost.published.find(params[:id]) 
+
         rescue ActiveRecord::RecordNotFound
         redirect_to root_path
     end
