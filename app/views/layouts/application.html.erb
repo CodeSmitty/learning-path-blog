@@ -10,20 +10,36 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
-  <body class="prose mx-auto">
-    <p class="notice"><%= notice %></p>
+  <nav >
+    <ul class="flex flex-row flex-nowrap px-8">
+      <li><%= link_to "Home", root_path %></li>
+      <li><% if user_signed_in? %>
+      <%= link_to "New blog post", new_blog_post_path %>
+        <%# <%= link_to "Profile", edit_user_registration_path %> 
+        <li><%= button_to "log out", destroy_user_session_path, method: :delete %></li>
+       <%# <%else%>
+       <%# <%= link_to "Sign In", new_user_session_path %>
+       <%# <%= link_to "Sign Up", new_user_registration_path %> 
+       <%else%>
+        <li><%= link_to "Sign In", new_user_session_path %></li>
+        <li><%= link_to "Sign Up", new_user_registration_path %></li>
+      <%end %> </li>
+    </ul>
+    </nav>
+  <body class="prose mx-auto ">
+    
+    <p class="notice px-5"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
     <div> 
-      <% if user_signed_in? %>
-      <%= link_to "New blog post", new_blog_post_path %>
+      <%# <% if user_signed_in? %>
+      <%# <%= link_to "New blog post", new_blog_post_path %> 
         <%# <%= link_to "Profile", edit_user_registration_path %> 
-        <%= button_to "log out", destroy_user_session_path, method: :delete %>
+        <%# <%= button_to "log out", destroy_user_session_path, method: :delete %> 
        <%# <%else%>
        <%# <%= link_to "Sign In", new_user_session_path %>
        <%# <%= link_to "Sign Up", new_user_registration_path %>   
-      <%end %>  
+      <%# <%end %>    
 
     </div>
     <%= yield %>
