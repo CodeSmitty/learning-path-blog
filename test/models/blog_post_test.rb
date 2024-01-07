@@ -38,7 +38,4 @@ class BlogPostTest < ActiveSupport::TestCase
   test "scheduled? return false for published blogpost" do
     refute blog_posts(:published).scheduled?
   end
-
- 
-
 end
